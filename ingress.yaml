@@ -1,17 +1,35 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: criptoingress
+  name: ingress-cripto
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   ingressClassName: nginx
   rules:
   - http:
       paths:
-      - path: /prueba
-        pathType: Mixed
-            service: LoadBalance
-            name: prueba
+      - path: /home1
+        pathType: Prefix
+        backend:
+          service:
+            name: prueba-svc
             port:
               number: 80
+      - path: /home2
+        pathType: Prefix
+        backend:
+          service:
+            name: homenew
+            port:
+              number: 80
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: prueba-svc
+            port:
+              number: 80
+              
