@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prueba
+  labels:
+    app: prueba
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prueba
+  template:
+    metadata:
+      labels:
+        app: prueba
+    spec:
+      containers:
+      - name: prueba
+        image: criptoland.azurecr.io/prueba
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prueba-svc
+spec:
+  selector:
+    app: prueba
+  ports:
+    - protocol: TCP
+      port: 80
