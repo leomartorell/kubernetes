@@ -16,14 +16,14 @@ spec:
     spec:
       containers:
       - name: prueba
-        image: criptoland.azurecr.io/prueba
+        image: criptoland.azurecr.io/criptodocker
         ports:
         - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: prueba-svc
+  name: prueba
 spec:
   selector:
     app: prueba

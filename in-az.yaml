@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: home2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: home2
+  template:
+    metadata:
+      labels:
+        app: home2
+    spec:
+      containers:
+      - name: home1
+        image: criptoland.azurecr.io/prueba
+        ports:
+        - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: home1  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: home1
+  template:
+    metadata:
+      labels:
+        app: home1
+    spec:
+      containers:
+      - name: home1
+        image: criptoland.azurecr.io/criptodocker
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: home1  
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: home1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: home2
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: home2
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minimal-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /home1
+        pathType: Prefix
+        backend:
+          service:
+            name: home1
+            port:
+              number: 80
+      - path: /r(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: home2
+            port:
+              number: 80
