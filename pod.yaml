@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: home-cripto
+  labels:
+    app: homrecripto
+spec:
+  containers:
+  - name: criptodocker
+    image: criptodocker
+    port: 80
+    

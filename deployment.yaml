@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prueba  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prueba
+  template:
+    metadata:
+      labels:
+        app: prueba
+    spec:
+      containers:
+      - name: prueba
+        image: leomarto/prueba
+        env:
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prueba-svc  
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: prueba

@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homedocker  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: homedocker
+  template:
+    metadata:
+      labels:
+        app: homedocker
+    spec:
+      containers:
+      - name: homedocker
+        image: criptoland.azurecr.io/homedocker
+        ports:
+        - containerPort: 80
+        env:
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: homedocker-svc  
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: homedocker
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homecripto  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: homecripto
+  template:
+    metadata:
+      labels:
+        app: homecripto
+    spec:
+      containers:
+      - name: homecripto
+        image: criptoland.azurecr.io/prueba
+        ports:
+        - containerPort: 80
+        env:
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: homecripto  
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: homecripto    
