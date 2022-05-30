@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-conf
+data:
+  default.conf: |
+    server {
+      server_name addin;
+
+      root /usr/share/nginx/html ;
+
+      location / {
+        try_files $uri $uri/ /addin/index.html?$args;
+      }
+    } 
