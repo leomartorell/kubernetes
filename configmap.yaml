@@ -9,7 +9,18 @@ data:
 
       root /usr/share/nginx/html ;
 
-      location / {
-        try_files $uri $uri/ /addin/index.html?$args;
+      location /some/path/ {
+        proxy_pass http://192.168.1.24/; # note the trailing slash!
       }
+      location / {
+        error_page 404 = @404;
+        return 404; # this would normally be `try_files` first
+      }
+        location @404 {
+        add_header Vary Referer; # sadly, no effect on 404
+        if ($http_referer ~ ://[^/]*(/some/path|/the/other)/) {
+            return 302 $1$uri;
+          }
+        return 404 "Not Found\n";
+      } 
     } 

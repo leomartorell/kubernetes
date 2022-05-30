@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: loadcripto
+  name: loadcripto2
 spec:
   selector:
-    app: home2
+    app: home1
   ports:
     - port: 80
   type: LoadBalancer
