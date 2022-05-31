@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: loadcripto
+spec:
+  selector:
+    app: home2
+  ports:
+    - port: 80
+  type: LoadBalancer

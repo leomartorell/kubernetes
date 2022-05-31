@@ -1,0 +1,97 @@
+Configuracion de Ingress y App en angular para funcionar con kubernetes
+
+debe estar configurado un deployment con replicas y servicios
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: home2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: home2
+  template:
+    metadata:
+      labels:
+        app: home2
+    spec:
+      containers:
+      - name: home2
+        image: criptoland.azurecr.io/prueba
+        ports:
+        - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: home1  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: home1
+  template:
+    metadata:
+      labels:
+        app: home1
+    spec:
+      containers:
+      - name: home1
+        image: criptoland.azurecr.io/cripto-docker
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: home1  
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: home1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: home2
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: home2
+
+
+Configurar el ingress
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minimal-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: home1
+            port:
+              number: 80
+      - path: /pepe(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: home2
+            port:
+              number: 80
+
+
+Se debe asignar el href de index.html de angular con la direccion donde va a estar indicado en ingress
