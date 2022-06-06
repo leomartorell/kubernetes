@@ -59,3 +59,34 @@ spec:
   - port: 80
   selector:
     app: home2
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: market  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: market
+  template:
+    metadata:
+      labels:
+        app: market
+    spec:
+      containers:
+      - name: market
+        image: criptoland.azurecr.io/market
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: market  
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: market
