@@ -17,13 +17,23 @@ spec:
             name: home1
             port:
               number: 80
-  - host: "prueba.kube.cripto-country.com"
+  - host: "market.kube.cripto-country.com"
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: home2
+            name: market
             port:
               number: 80
+  - host: "back.kube.cripto-country.com"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: dapp-backend
+            port:
+              number: 3001                        

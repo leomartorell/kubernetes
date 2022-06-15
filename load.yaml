@@ -4,7 +4,7 @@ metadata:
   name: loadcripto
 spec:
   selector:
-    app: home2
+    app: dapp-backend
   ports:
-    - port: 80
+    - port: 3001
   type: LoadBalancer
