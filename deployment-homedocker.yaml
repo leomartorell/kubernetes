@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: homedocker
-        image: criptoland.azurecr.io/homedocker
+        image: criptoland.azurecr.io/home
         ports:
         - containerPort: 80
         env:
