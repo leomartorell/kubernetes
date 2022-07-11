@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: casino-api  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: casino-api
+  template:
+    metadata:
+      labels:
+        app: casino-api
+    spec:
+      containers:
+      - name: casino-api
+        image: criptoland.azurecr.io/casino-api-dev
+        ports:
+        - containerPort: 3000
+        env:
+          - name: SQLDB
+            value: Server=tcp:criptocountry.database.windows.net,1433;Initial Catalog=criptoland;Persist Security Info=False;User ID=criptoadmin;Password={};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: casino-api 
+spec:
+  type: ClusterIP
+  ports:
+  - port: 3000
+  selector:
+    app: casino-api
