@@ -17,9 +17,6 @@ spec:
          image: criptoland.azurecr.io/casino-api-dev
          ports:
          - containerPort: 3001
-         env:
-        
-
 ---
 apiVersion: v1
 kind: Service
